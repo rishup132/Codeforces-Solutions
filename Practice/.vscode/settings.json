@@ -1,0 +1,13 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "cstdlib": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "valarray": "cpp"
+    }
+}
