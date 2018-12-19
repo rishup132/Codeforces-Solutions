@@ -2,7 +2,8 @@
 
 using namespace std;
 
-int a[200010];
+map <pair<int,int>, int> mp;
+int a[200010],b[200010];
 
 int32_t main()
 {
@@ -17,30 +18,43 @@ int32_t main()
         if(x > y)
             swap(x,y);
 
-        if(x == y-1)
-            a[x]++;
+        mp[{x,y}]++;
     }
 
-    for(int i=1;i<n;i++)
+    for(int i=1;i<=n;i++)
     {
-        if(a[i] == 0)
+        for(int j=i+1;j<=n;j++)
         {
-            cout << "YES\n";
-
-            for(int j=1;j<=n;j++)
-                cout << j << " ";
-            cout << endl;
-
-            for(int j=1;j<=n;j++)
+            if(i != j && mp[{i,j}] == 0)
             {
-                if(j == i)
-                    cout << j+1 << " ";
-                else
-                    cout << j << " ";
-            }
-            cout << endl;
+                cout << "YES\n";
+                int cnt = 1;
 
-            return 0;
+                for(int k=1;k<=n;k++)
+                {
+                    if(k == i)
+                        cout << n-1 << " ";
+                    else if(k == j)
+                        cout << n << " ";
+                    else
+                        cout << cnt++ << " ";
+                }
+                cout << endl;
+
+                cnt = 1;
+                for(int k=1;k<=n;k++)
+                {
+                    if(k == i)
+                        cout << n << " ";
+                    else if(k == j)
+                        cout << n << " ";
+                    else
+                        cout << cnt++ << " ";
+                }
+                cout << endl;
+
+                return 0;
+            }
         }
     }
 
