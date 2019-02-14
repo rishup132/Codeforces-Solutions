@@ -5,60 +5,7 @@
 
 using namespace std;
 
-vector<int> dist(1e6, INF);
-
-typedef pair<int, int> iPair; 
-
-class Graph 
-{ 
-    int V; 
-    list< pair<int, iPair> > *adj; 
-  
-public: 
-    Graph(int V); 
-    void addEdge(int u, int v, int w, int x); 
-    void shortestPath(int s); 
-}; 
-
-Graph::Graph(int V) 
-{ 
-    this->V = V; 
-    adj = new list<pai<int,iPair> > [V]; 
-} 
-  
-void Graph::addEdge(int u, int v, int w, int x) 
-{ 
-    adj[u].push_back({v,{w,x}}); 
-    adj[v].push_back({u,{w,x}}); 
-} 
-
-void Graph::shortestPath(int src) 
-{ 
-    priority_queue< pair<int,iPair>, vector <pair<int,iPair>> , greater<pair<int,iPair>> > pq;
-
-    pq.push(make_pair(0, src)); 
-    dist[src] = 0;
-
-    while (!pq.empty()) 
-    { 
-        int u = pq.top().second; 
-        pq.pop(); 
-
-        list< pair<int, int> >::iterator i;
-
-        for (i = adj[u].begin(); i != adj[u].end(); ++i) 
-        { 
-            int v = (*i).first; 
-            int weight = (*i).second; 
-
-            if (dist[v] > dist[u] + weight) 
-            {
-                dist[v] = dist[u] + weight;
-                pq.push(make_pair(dist[v], v)); 
-            } 
-        } 
-    }
-}
+vector <pair<int,pair<int,int> > > v[300010];
 
 int32_t main()
 {
@@ -73,10 +20,42 @@ int32_t main()
         int x,y,w;
         cin >> x >> y >> w;
 
-        g.addEdge(x,y,w);
+        v[x].push_back({y,{w,i}});
+        v[y].push_back({x,{w,i}});
     }
 
-    g.shortestPath(1);
+    set <pair<int,int> > q;
+    q.insert({0,1});
+    vector <int> dis(n+1,1e18);
+    dis[1] = 0;
+    vector <int> ans;
+    vector <int> last(n+1,-1);
+    int cnt = 0;
 
-    for()
+    while(!q.empty() && cnt < d)
+    {
+        auto temp = *q.begin();
+        q.erase(q.begin());
+
+        if(last[temp.second] != -1)
+        {
+            ans.push_back(last[temp.second]);
+            cnt++;
+        }
+
+        for(auto i:v[temp.second])
+        {
+            if(dis[i.first] > dis[temp.second] + i.second.first)
+            {
+                q.erase({dis[i.first],i.first});
+                dis[i.first] = dis[temp.second] + i.second.first;
+                last[i.first] = i.second.second; 
+                q.insert({dis[i.first],i.first});
+            }
+        }
+    }
+
+    cout << ans.size() << endl;
+    for(int i:ans)
+        cout << i+1 << " ";
 }

@@ -1,25 +1,33 @@
 #include <bits/stdc++.h>
 
-#define int long long
+#define int long long unsigned
 #define mod 1000000007
 
 using namespace std;
 
-int32_t main()
+vector <int> ans;
+
+void brute(int pos, int cnt, int cur)
 {
-    vector <int> v;
-    set <int> s;
-
-    int k = 15;
-
-    for(int i=1;k!=0;i*=10,k--)
+    if(pos == 18)
     {
-        for(int j=1;j<=1000;j++)
-            s.insert(i*j);
+        ans.push_back(cur);
+        return;
     }
 
-    for(auto i:s)
-        v.push_back(i);
+    brute(pos+1,cnt,cur*10);
+
+    if(cnt < 3)
+    {
+        for(int i=1;i<10;i++)
+            brute(pos+1,cnt+1,cur*10+i);
+    }
+}
+
+int32_t main()
+{
+    brute(0,0,0);
+    ans.push_back(1000000000000000000);
 
     int t;
     cin >> t;
@@ -29,6 +37,6 @@ int32_t main()
         int x,y;
         cin >> x >> y;
 
-        cout << upper_bound(v.begin(),v.end(),y) - lower_bound(v.begin(),v.end(),x) << endl;
+        cout << upper_bound(ans.begin(),ans.end(),y) - lower_bound(ans.begin(),ans.end(),x) << endl;
     }
 }
